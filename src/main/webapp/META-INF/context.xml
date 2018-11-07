@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/loja">
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="loja" password="ccti" type="javax.sql.DataSource" url="jdbc:postgresql://localhost:5432/loja" username="postgres"/>
+</Context>
