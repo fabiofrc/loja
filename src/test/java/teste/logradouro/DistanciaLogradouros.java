@@ -7,18 +7,20 @@ package teste.logradouro;
 
 import com.ccti.loja.facade.LogradouroFacade;
 import com.ccti.loja.model.Logradouro;
+import com.ccti.loja.util.geometry.GoogleMapsTileMath;
 import com.vividsolutions.jts.algorithm.distance.DiscreteHausdorffDistance;
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateFilter;
-import com.vividsolutions.jts.geom.CoordinateSequenceComparator;
-import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
-import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryComponentFilter;
-import com.vividsolutions.jts.geom.GeometryFilter;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import com.vividsolutions.jts.geom.util.GeometryTransformer;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
-import org.hibernate.spatial.jts.JTS;
-import org.postgis.PGgeometry;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -68,6 +70,8 @@ public class DistanciaLogradouros {
         return dist.orientedDistance();
     }
 
+   
+
     public static void main(String[] args) {
         LogradouroFacade lf = new LogradouroFacade();
         Logradouro l = lf.buscaById(1L);
@@ -77,8 +81,34 @@ public class DistanciaLogradouros {
 //        System.out.println(l.getNome() + " local: " + l.getGeom() + " Biarro: " + l.getBairro().getNome());
 //        double distancia = distance(lo.getGeom(), l.getGeom());
 //        System.out.println("distancia : " + distancia / 1000);
-        Geometry geometry = l.getGeom();
-        System.out.println(geometry.getNumPoints());
+        Geometry geometry = lo.getGeom();
+        String lista = Arrays.toString(geometry.getCoordinates());
 
+        System.out.println(lista);
+
+        geometry.getCoordinates();
+
+        Coordinate c = new Coordinate();
+
+        GeometryFactory factory = new GeometryFactory();
+        GeometryTransformer transformer = new GeometryTransformer();
+        Geometry lineString = transformer.transform(lo.getGeom());
+
+//        Point[] teste = new Point[2];
+//        gFactory.createMultiPoint(teste);
+        MultiLineString geom = lo.getGeom();
+        System.out.println("teste: " + geom);
+//        Point p = (Point) gTransform.transform(geom);
+//        System.out.println("Ponto" + p);
+
+        for (int i = 0; i < geom.getNumGeometries(); i++) {
+            System.out.println(i);
+        }
+
+        GoogleMapsTileMath gmtm = new GoogleMapsTileMath();
+        System.out.println(gmtm.metersToLngLat(lo.getGeom()));
+        
+        Geometry pontos = gmtm.metersToLngLat(lo.getGeom());
+        System.out.println(pontos.getNumGeometries());
     }
 }
