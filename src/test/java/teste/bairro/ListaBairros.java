@@ -7,7 +7,9 @@ package teste.bairro;
 
 import com.ccti.loja.facade.BairroFacade;
 import com.ccti.loja.model.Bairro;
+import com.vividsolutions.jts.geom.Coordinate;
 import java.util.List;
+import org.postgis.Geometry;
 
 /**
  *
@@ -21,6 +23,8 @@ public class ListaBairros {
         for (Bairro bairro : bairros) {
               System.out.println(bairro.getNome());
         }
+        
+        
       
     }
 }
